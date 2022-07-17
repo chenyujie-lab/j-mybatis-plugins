@@ -10,10 +10,35 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.jedi.mybatis</groupId>
+  <groupId>io.github.chenyujie-lab</groupId>
   <artifactId>j-mybatis</artifactId>
-  <version>0.2022.5.8.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
+
+
+  <name>j-mybatis-plugins</name>
+  <url>https://github.com/chenyujie-lab/j-mybatis-plugins.git</url>
+  <description>Mybatis plug-in library</description>
+
+  <licenses>
+    <!-- Apache许可证 -->
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>ChenYujie</name>
+      <email>chenyujie0451@163.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <url>https://github.com/chenyujie-lab/j-mybatis-plugins</url>
+    <connection>scm:git:https://github.com/chenyujie-lab/j-mybatis-plugins.git</connection>
+  </scm>
 
   <modules>
     <module>jm-plugins</module>
@@ -23,8 +48,9 @@
 
   <!-- 统一管理jar包版本 -->
   <properties>
-    <module.version>0.2022.5.8.0-SNAPSHOT</module.version>
+    <module.version>1.0.1</module.version>
     <project.build.sourceEncodeing>UTF-8</project.build.sourceEncodeing>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <log4j.version>1.2.17</log4j.version>
@@ -71,6 +97,87 @@
     </dependencies>
 
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!--分发管理和认证-->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          <!-- 源码插件 -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.2.1</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Javadoc 插件 -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.9.1</version>
+            <configuration>
+              <!-- jdk1.8要加上，1.7要去掉，否则会报错 -->
+              <additionalJOptions>
+                <additionalJOption>-Xdoclint:none</additionalJOption>
+              </additionalJOptions>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- GPG 签名组件 -->
+          <plugin> <!-- 进行延签 -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+
+      <distributionManagement>
+        <snapshotRepository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
   <reporting>
     <plugins>

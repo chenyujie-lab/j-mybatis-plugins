@@ -1,7 +1,21 @@
 ## 字典键值自动映射插件
 #### 1、快速入门
 ##### 1.1、简介
-  > 根据字典type、字典值自动映射相对应的字典键(label)。例如：
+  > 根据字典type、字典值自动映射相对应的字典键(label)。
+
+例：
+```java
+public interface UserMapper {
+
+    @Select({"select * from users where id=#{userId}"})
+    User selectOneById(Integer id);
+}
+```
+
+|原结果|映射后的结果|
+|---|---|
+|![image](../../images/jm-dict/defaultRes.png)|![image](../../images/jm-dict/mappingDictRes.png)|
+
 
 
 #### 2、配置
@@ -38,10 +52,11 @@ public class DictDataServiceImpl implements IDictDataService {
 <dependency>
   <groupId>io.github.chenyujie-lab</groupId>
   <artifactId>jm-dict-plugin</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.1</version>
 </dependency>
+
 <!-- Gradle方式引入 -->
-略
+implementation 'io.github.chenyujie-lab:jm-dict-plugin:1.0.1'
 ```
 ##### 3.2、启动类添加注解
 ```text
