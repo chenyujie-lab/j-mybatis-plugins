@@ -11,4 +11,6 @@ public interface IUserService {
     List<User> listUserHobbyByIds(List<Integer> ids);
 
     User getUserCompanyByUserId(Integer id);
+
+    User getByIdForMP(Integer id);
 }

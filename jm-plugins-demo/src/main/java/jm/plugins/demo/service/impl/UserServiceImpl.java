@@ -1,6 +1,8 @@
 package jm.plugins.demo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jm.plugins.demo.entity.User;
+import jm.plugins.demo.mapper.MpUserMapper;
 import jm.plugins.demo.mapper.UserMapper;
 import jm.plugins.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private MpUserMapper mpUserMapper;
+
     @Override
     public User selectOneById(Integer id) {
         return userMapper.selectOneById(id);
@@ -42,5 +47,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User getUserCompanyByUserId(Integer id) {
         return userMapper.getUserCompanyByUserId(id);
+    }
+
+    @Override
+    public User getByIdForMP(Integer id) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getId, id);
+        return mpUserMapper.selectOne(queryWrapper);
     }
 }

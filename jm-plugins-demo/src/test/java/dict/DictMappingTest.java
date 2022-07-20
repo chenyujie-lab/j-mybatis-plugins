@@ -75,4 +75,14 @@ public class DictMappingTest {
         System.out.println(JSONObject.toJSONString(user));
     }
 
+    /**
+     * Mybatis Plus
+     */
+    @Test
+    public void testSelectOneForMP() {
+        User user = service.getByIdForMP(10);
+
+        System.out.println(JSONObject.toJSONString(user));
+    }
+
 }

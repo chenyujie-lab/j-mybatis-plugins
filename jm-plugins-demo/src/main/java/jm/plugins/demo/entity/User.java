@@ -1,5 +1,7 @@
 package jm.plugins.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import jm.dict.plugin.annotation.JDictField;
 import jm.dict.plugin.annotation.JIncludeDict;
 import jm.dict.plugin.entity.JDictString;
@@ -8,31 +10,45 @@ import java.util.Date;
 import java.util.List;
 
 
+@TableName("users")
 @JIncludeDict
 public class User implements java.io.Serializable {
 
+    @TableField
     private Integer id;
 
+    @TableField
     private String age;
 
+    @TableField
     private String name;
 
+    @TableField
     @JDictField(type = "sex", remark="这是字典字段，'sex'字典")
     private JDictString sex;
 
     /**
      * 用户爱好
      */
+    @TableField(exist = false)
     private List<UserHobby> hobbys;
 
     /**
      * 所在公司
      */
+    @TableField(exist = false)
     private Company company;
 
+    @TableField(exist = false)
     private String email;
+
+    @TableField(exist = false)
     private String phoneNumber;
+
+    @TableField(exist = false)
     private Date createTime;
+
+    @TableField(exist = false)
     private String[] labels;
 
     public Integer getId() {
