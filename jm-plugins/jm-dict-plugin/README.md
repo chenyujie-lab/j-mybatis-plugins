@@ -23,8 +23,16 @@ public interface UserMapper {
 ```java
 @Configuration
 public class JDictConfig {
+
+    /** 
+     * JDictDataInputSource<T>
+     * <T {JDictInteger|JDictString}> 根据字典值的类型决定
+     *   a、dict_value为Integer时，T为JDictInteger
+     *   b、dict_value为String时，T为JDictString
+     *  示例如下：
+     */
     @Bean
-    public JDictDataInputSource<JDictInteger> dictDataInputSource(IDictDataService dictDataService) {
+    public JDictDataInputSource<JDictString> dictDataInputSource(IDictDataService dictDataService) {
         return dictDataService::listDictDataByType;
     }
 }
@@ -32,14 +40,14 @@ public class JDictConfig {
 @Service
 public class DictDataServiceImpl implements IDictDataService {
   @Override
-  public List<JDictInteger> listDictDataByType(List<String> type) {
+  public List<JDictString> listDictDataByType(List<String> type) {
     // 模拟数据，具体实现可参考demo...
-    List<JDictInteger> list = new ArrayList<>();
-    JDictInteger dictInteger = new JDictInteger();
-    dictInteger.setType("hobby");
-    dictInteger.setValue(11);
-    dictInteger.setLabel("篮球");
-    list.add(dictInteger);
+    List<JDictString> list = new ArrayList<>();
+    JDictString dict = new JDictString();
+    dict.setType("hobby");
+    dict.setValue("11");
+    dict.setLabel("篮球");
+    list.add(dict);
     return list;
   }
 }
@@ -63,8 +71,8 @@ implementation 'io.github.chenyujie-lab:jm-dict-plugin:1.0.1'
 @EnableDictMapping
 ```
 ##### 3.3、配置文件
-```properties
-mybatis:
+```
+{mybatis|mybatis-plus}:
   type-handlers-package: jm.dict.plugin.handle
 ```
 ##### 3.4、实体类添加注解
